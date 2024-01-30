@@ -1,8 +1,9 @@
 import "../_styles/global.css";
+import Nav from "../components/nav";
 
 export const metadata = {
-  title: "Next.js",
-  description: "Barebone Next.js installation",
+  title: "MovieMann",
+  description: "Eine Film-App",
 };
 
 export default function RootLayout({
@@ -11,8 +12,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de">
-      <body>{children}</body>
+    <html lang="de" suppressHydrationWarning={true}>
+      <body className="p-4">
+        <Nav />
+        {children}
+      </body>
     </html>
   );
 }
