@@ -12,8 +12,8 @@ export default function Nav() {
     useSearchStore.setState({ searchString: e.target.value });
   }
   return (
-    <nav className="border-gray-200  mb-10">
-      <div className="container mr-auto flex flex-wrap items-center justify-between">
+    <nav className="flex border-gray-200  mb-10 ">
+      <div className="  flex items-center justify-between w-full ">
         <div className="flex">
           <div className="w-20">
             <Image src={logo} alt="" priority={true}></Image>
@@ -25,7 +25,7 @@ export default function Nav() {
         </div>
 
         <div className="flex md:order-2">
-          <div className="relative mr-3 md:mr-0 hidden md:block">
+          <div className="relative   hidden md:block">
             <div className="hidden search sm:block">
               <input
                 id="search"
@@ -34,7 +34,7 @@ export default function Nav() {
                 }}
                 value={searchString}
                 type="text"
-                className="w-56 rounded-full border-transparent bg-slate-100 pr-8 shadow-none transition-[width] duration-300 ease-in-out focus:w-72 focus:border-transparent dark:bg-darkmode-400/70 px-1.5 py-2"
+                className="w-56 rounded-full border-transparent bg-slate-100 pr-8 shadow-none transition-[width] duration-300 ease-in-out focus:w-72 focus:border-transparent  px-1.5 py-2"
                 placeholder="Search..."
               />
               <Search className="absolute inset-y-0 right-0 w-5 h-5 my-auto mr-3 text-slate-600 " />
@@ -43,32 +43,7 @@ export default function Nav() {
               <Search className="w-5 h-5 dark:text-slate-500" />
             </a>
           </div>
-          {/* <div className="relative mr-3 md:mr-0 hidden md:block">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg
-                className="w-5 h-5 text-gray-500"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </div>
-            <input
-              type="text"
-              id="email-adress-icon"
-              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2"
-              placeholder="Search..."
-              value={searchString}
-              onChange={(e) => {
-                handleSearchChange(e);
-              }}
-            />
-          </div> */}
+
           <button
             data-collapse-toggle="mobile-menu-3"
             type="button"

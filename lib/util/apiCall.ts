@@ -60,3 +60,26 @@ export const AddMovie = async (movie: Movie) => {
   const data = await res.json();
   return data;
 };
+
+export const AddWishlistItem = async (movieId: number) => {
+  const res = await fetch(`/api/add-wishlist-item`, {
+    method: "POST",
+    body: JSON.stringify({ movieId: movieId }),
+  });
+  const data = await res.json();
+  return data;
+};
+
+export const RemoveWishlistItem = async (movieId: number) => {
+  const res = await fetch(`/api/delete-wishlist-item?id=${movieId}`, {
+    method: "DELETE",
+  });
+  const data = await res.json();
+  return data;
+};
+
+export const GetWishlist = async () => {
+  const res = await fetch(`/api/list-wishlist`);
+  const data = await res.json();
+  return data;
+};

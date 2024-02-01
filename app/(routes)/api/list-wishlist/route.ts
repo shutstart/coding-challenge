@@ -1,10 +1,10 @@
 import conn from "@/lib/db";
 import { Movie } from "@/lib/types";
-import { listMoviesQuery } from "@/lib/queries";
+import { listMoviesQuery, listWishlistQuery } from "@/lib/queries";
 
 export async function GET() {
   try {
-    const result = await conn!.query(listMoviesQuery);
+    const result = await conn!.query(listWishlistQuery);
     let movies: Movie[] = [];
 
     result.rows.forEach((movie) => {

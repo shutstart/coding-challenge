@@ -46,6 +46,16 @@ export const useMovieListStore = create<MovieListState>((set) => ({
     set((state) => ({ movieList: movieList })),
 }));
 
+interface WishlistState {
+  wishlist: Movie[];
+  setWishlist: (wishlist: Movie[]) => void;
+}
+
+export const useWishlistStore = create<WishlistState>((set) => ({
+  wishlist: [],
+  setWishlist: (wishlist: Movie[]) => set((state) => ({ wishlist: wishlist })),
+}));
+
 interface SearchState {
   searchString: string;
   setSearch: (search: string) => void;

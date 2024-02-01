@@ -5,9 +5,9 @@ export async function DELETE(request: Request) {
   const id = request.url.split("?")[1].split("=")[1];
 
   try {
-    console.log("add comment request body", id);
+    console.log("delete movie request body", id);
     const result = await conn!.query(deleteMovieQuery, [id]);
-    console.log("add commnet query result", result);
+    console.log("delete movie query result", result);
 
     return new Response(
       JSON.stringify({ message: "Successfully deleted movie" }),

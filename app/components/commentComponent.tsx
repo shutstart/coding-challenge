@@ -12,7 +12,7 @@ import {
   GetMovieComments,
   PostComment,
 } from "@/lib/util/apiCall";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Trash2 } from "lucide-react";
 
 export default function CommentComponent() {
   const movieList = useMovieListStore((state) => state.movieList);
@@ -28,13 +28,17 @@ export default function CommentComponent() {
       setRating(rating ?? 0);
       GetMovieComments(movie.id!).then((comments) => {
         setComments(comments);
-        console.log(comments);
       });
     });
   }, []);
   const handleDeleteComment = async (id: number) => {
     const data = await DeleteComment(id);
-    if (!data) return alert("Something went wrong");
+    if (!data) {
+      // TODO: Handle error
+    }
+    GetMovieComments(movie.id!).then((comments) => {
+      setComments(comments);
+    });
   };
   async function addComment() {
     const data = await PostComment(String(commentString), movie.id!);
@@ -42,7 +46,6 @@ export default function CommentComponent() {
     if (!data) return alert("Something went wrong");
     GetMovieComments(movie.id!).then((comments) => {
       setComments(comments);
-      console.log(comments);
     });
   }
   const handleRating = async (rate: number) => {
@@ -107,11 +110,11 @@ export default function CommentComponent() {
           </button>
         </div>
       </div>
-      <div className="pb-10 mt-5 intro-y w-full ">
+      <div className="pb-8 mt-5 intro-y w-full max-h-96 overflow-y-auto no-scrollbar ">
         {comments.map((comment) => {
           return (
             <div
-              className="pt-5 mt-5 border-t border-slate-200/60 "
+              className="pt-5 mt-5 border-t border-gray-200/40 "
               key={comment.id}
             >
               <div className="flex">
@@ -124,6 +127,12 @@ export default function CommentComponent() {
                 </div>
                 <div className="flex-1 ml-3">
                   <div className="mt-2">{comment.value}</div>
+                </div>
+                <div className="my-auto">
+                  <Trash2
+                    className="w-5 h-5 text-slate-500 cursor-pointer hover:text-red-600"
+                    onClick={() => handleDeleteComment(comment.id!)}
+                  />
                 </div>
               </div>
             </div>

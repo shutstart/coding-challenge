@@ -1,3 +1,4 @@
+import { Movie } from "../types";
 import { GetMovieList, GetMovieRatings } from "./apiCall";
 import { SetMovieList } from "./setters";
 
@@ -18,4 +19,14 @@ export const GetNumericMovieRating = async (movieId: number) => {
   const precisionMovieRating = numericMovieRating.toPrecision(2);
   const numericPrecisionMovieRating = parseFloat(precisionMovieRating);
   return numericPrecisionMovieRating;
+};
+
+// helper for checking if a movie is in the wishlist
+export const IsInWishlist = (wishlist: Movie[], movieId: number) => {
+  const movieIds = wishlist.map((movie) => {
+    console.log(movie);
+    return movie.id;
+  });
+  console.log(movieIds);
+  return movieIds.includes(movieId);
 };
