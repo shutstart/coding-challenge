@@ -12,7 +12,8 @@ import {
   GetMovieComments,
   PostComment,
 } from "@/lib/util/apiCall";
-import { MessageCircle, Trash2 } from "lucide-react";
+import { MessageCircle, Trash2, X } from "lucide-react";
+import { CloseModal } from "@/lib/util/setters";
 
 export default function CommentComponent() {
   const movieList = useMovieListStore((state) => state.movieList);
@@ -62,7 +63,18 @@ export default function CommentComponent() {
 
   return (
     <div className="relative">
-      <h2 className="text-xl font-medium intro-y sm:text-2xl">{movie.title}</h2>
+      <div className="flex">
+        <h2 className="text-xl font-medium intro-y sm:text-2xl my-atuo mr-auto">
+          {movie.title}
+        </h2>
+        <div className="my-auto">
+          <X
+            className="w-6 h-6 text-gray-500 hover:text-gray-700 cursor-pointer"
+            onClick={CloseModal}
+          />
+        </div>
+      </div>
+
       <div className="mt-3 text-xs  text-slate-600 dark:text-slate-500 sm:text-sm">
         {movie.releaseYear}
       </div>

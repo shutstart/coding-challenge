@@ -5,6 +5,8 @@ import {
 } from "../store/state";
 import { Movie } from "../types";
 
+/* util functions for setting store states */
+
 export const SetMovieList = (movieList: Movie[]) => {
   useMovieListStore.setState({ movieList: movieList });
 };

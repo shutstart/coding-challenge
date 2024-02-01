@@ -20,7 +20,7 @@ import {
   IsInWishlist,
 } from "@/lib/util/helper";
 import Image from "next/image";
-import { MessageSquareText, Trash2, Heart } from "lucide-react";
+import { MessageSquareText, Trash2, Heart, X } from "lucide-react";
 import { OpenModal } from "@/lib/util/setters";
 import Rating from "./ratingComponent";
 
@@ -82,7 +82,7 @@ export default function Card({
   }
   return (
     <>
-      <div className="col-span-12 md:col-span-6  flex flex-col  bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-50/50 ">
+      <div className="col-span-12 md:col-span-4  flex flex-col  bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-50/50 ">
         <Image
           priority
           className="w-full rounded-t-lg h-64 md:w-48 md:rounded-none md:rounded-s-lg object-fill "

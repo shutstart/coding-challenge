@@ -1,5 +1,4 @@
 import { useWishlistStore } from "../store/state";
-import { Movie } from "../types";
 import { GetMovieList, GetMovieRatings, GetWishlist } from "./apiCall";
 import { SetMovieList, SetWishlist } from "./setters";
 

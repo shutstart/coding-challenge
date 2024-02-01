@@ -2,7 +2,7 @@ import { Pool } from "pg";
 
 let conn: Pool | null = null;
 
-// Connection to the database is established only once
+// Connection to the database is established
 if (!conn) {
   conn = new Pool({
     user: process.env.PGSQL_USER,

@@ -4,31 +4,14 @@ import { useState } from "react";
 import Dropzone from "react-dropzone";
 
 export const AddMovieForm = () => {
-  function base64ToArrayBuffer(base64: string) {
-    var binaryString = atob(base64);
-    var bytes = new Uint8Array(binaryString.length);
-    for (var i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
-    return bytes.buffer;
-  }
+  // state for setting the photo
   const [uploadedPhoto, setUploadingPhoto] = useState<File>(new File([], ""));
+  // check if photo is uploaded
+  const [isUploaded, setIsuploaded] = useState(false);
   async function handleUploadPhoto(files: any) {
     files.forEach((file: any) => {
-      const reader = new FileReader();
-
-      reader.onabort = () => console.log("file reading was aborted");
-      reader.onerror = () => console.log("file reading has failed");
-      reader.onload = () => {
-        // Do whatever you want with the file contents
-        const binaryStr = reader.result;
-        const uint8 = new Uint8Array(binaryStr as ArrayBuffer);
-        console.log("my binary string", uint8);
-        console.log("my binary string", binaryStr);
-      };
-      reader.readAsArrayBuffer(file);
-
       setUploadingPhoto(file);
+      setIsuploaded(true);
     });
   }
   async function addMovie(formData: FormData) {
@@ -130,13 +113,16 @@ export const AddMovieForm = () => {
                     d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                   />
                 </svg>
-                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-semibold">Click to upload</span> or drag
-                  and drop movie poster
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  SVG, PNG, JPG or GIF
-                </p>
+                {isUploaded ? (
+                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                    {uploadedPhoto.name} uploaded
+                  </p>
+                ) : (
+                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span className="font-semibold">Click to upload</span> or
+                    drag and drop movie poster
+                  </p>
+                )}
               </div>
               <input
                 name="dropzone-file"

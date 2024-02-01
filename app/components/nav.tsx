@@ -35,7 +35,11 @@ export default function Nav() {
             <li>
               <Link
                 href="/movies"
-                className="bg-blue-700 md:bg-transparent text-white block pl-3 pr-4 py-2 md:text-blue-700 md:p-0 rounded"
+                className={`md:bg-transparent text-white block pl-3 pr-4 py-2 ${
+                  pathName === "/movies"
+                    ? "md:text-blue-700 "
+                    : "md:text-gray-700"
+                } md:p-0 rounded`}
                 aria-current="page"
               >
                 Movies
@@ -44,7 +48,11 @@ export default function Nav() {
             <li>
               <Link
                 href="/wishlist"
-                className="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-700 md:p-0"
+                className={`${
+                  pathName === "/wishlist"
+                    ? "md:text-blue-700 "
+                    : "md:text-gray-700"
+                } hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-700 md:p-0`}
               >
                 Wishlist
               </Link>
@@ -53,7 +61,7 @@ export default function Nav() {
         </div>
 
         <div className="flex md:order-2 w-32 justify-end">
-          <div className="relative   hidden md:block ">
+          <div className="relative  hidden md:block ">
             <div className="hidden search sm:block">
               <input
                 id="search"
