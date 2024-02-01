@@ -52,9 +52,12 @@ export const DeleteMovie = async (movieId: number) => {
   return data;
 };
 
-export const AddMovie = async (movie: Movie) => {
+export const AddMovie = async (movie: FormData) => {
   const res = await fetch(`/api/add-movie`, {
     method: "POST",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
     body: JSON.stringify(movie),
   });
   const data = await res.json();

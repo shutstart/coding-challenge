@@ -4,7 +4,15 @@ import { useState } from "react";
 import Dropzone from "react-dropzone";
 
 export const AddMovieForm = () => {
-  const [uploadedPhoto, setUploadingPhoto] = useState<Uint8Array>();
+  function base64ToArrayBuffer(base64: string) {
+    var binaryString = atob(base64);
+    var bytes = new Uint8Array(binaryString.length);
+    for (var i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+  }
+  const [uploadedPhoto, setUploadingPhoto] = useState<File>(new File([], ""));
   async function handleUploadPhoto(files: any) {
     files.forEach((file: any) => {
       const reader = new FileReader();
@@ -14,9 +22,13 @@ export const AddMovieForm = () => {
       reader.onload = () => {
         // Do whatever you want with the file contents
         const binaryStr = reader.result;
-        setUploadingPhoto(new Uint8Array(binaryStr as ArrayBuffer));
+        const uint8 = new Uint8Array(binaryStr as ArrayBuffer);
+        console.log("my binary string", uint8);
+        console.log("my binary string", binaryStr);
       };
       reader.readAsArrayBuffer(file);
+
+      setUploadingPhoto(file);
     });
   }
   async function addMovie(formData: FormData) {
@@ -25,13 +37,15 @@ export const AddMovieForm = () => {
     const releaseYear = formData.get("releaseYear");
     const image = uploadedPhoto;
     console.log(image, title, description, releaseYear);
+    formData.append("image", uploadedPhoto);
 
     const res = await fetch("/api/add-movie", {
       method: "POST",
-      body: JSON.stringify({ title, description, releaseYear, image }),
+      body: formData,
     });
-    const data = await res.json();
-    if (!data) return alert("Something went wrong");
+
+    console.log("UPLOADED ADD FILM RESULT", res);
+
     GetAndSetMovieList();
     closeModal();
   }
@@ -125,6 +139,7 @@ export const AddMovieForm = () => {
                 </p>
               </div>
               <input
+                name="dropzone-file"
                 id="dropzone-file"
                 {...getInputProps()}
                 className="hidden"
@@ -133,9 +148,10 @@ export const AddMovieForm = () => {
           </div>
         )}
       </Dropzone>
+
       <button
         type="submit"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
       >
         Submit
       </button>

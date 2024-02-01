@@ -85,10 +85,13 @@ export default function Card({
       <div className="col-span-12 md:col-span-6  flex flex-col  bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-50/50 ">
         <Image
           priority
-          className="object-cover w-full rounded-t-lg h-64 md:w-48 md:rounded-none md:rounded-s-lg"
-          src={staticImage}
+          className="w-full rounded-t-lg h-64 md:w-48 md:rounded-none md:rounded-s-lg object-fill "
+          src={movie.image!}
+          width={1400}
+          height={1400}
           alt=""
         />
+
         <div className="flex flex-col p-4 leading-normal w-full overflow-hidden">
           <div className="text-2xl font-bold tracking-tight text-gray-900 ">
             {movie.title}

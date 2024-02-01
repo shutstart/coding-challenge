@@ -6,9 +6,7 @@ export async function GET(request: Request) {
   try {
     const id = request.url.split("?")[1].split("=")[1];
     let ratings: Rating[] = [];
-    console.log("id", id);
     const result = await conn!.query(listRatingsQuery, [id]);
-
     result.rows.forEach((rating) => {
       ratings.push({
         id: rating.id,
@@ -16,7 +14,7 @@ export async function GET(request: Request) {
         value: rating.value,
       });
     });
-    console.log("ARAAARE", ratings);
+
     return new Response(JSON.stringify(ratings), { status: 200 });
   } catch (error) {
     return new Response(

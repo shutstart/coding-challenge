@@ -5,7 +5,7 @@ export const insertWishlistQuery = `INSERT INTO wish_list(movie_id) VALUES($1) R
 export const listMoviesQuery = `SELECT id,name,description,encode(image, 'base64'),release_year FROM movie`;
 export const listRatingsQuery = `SELECT * FROM rating WHERE movie_id = $1`;
 export const listCommentsQuery = `SELECT * FROM comment WHERE movie_id = $1 ORDER BY id DESC`;
-export const listWishlistQuery = `SELECT m.id, m.name, encode(m.image, 'base64'), m.release_year, m.description FROM movie m JOIN wish_list w ON m.id = w.movie_id;`;
+export const listWishlistQuery = `SELECT m.id, m.name, encode(image, 'base64'), m.release_year, m.description FROM movie m JOIN wish_list w ON m.id = w.movie_id;`;
 export const getMovieQuery = `SELECT * FROM movie WHERE id = $1`;
 export const deleteMovieQuery = `DELETE FROM movie WHERE id = $1`;
 export const deleteCommentQuery = `DELETE FROM comment WHERE id = $1`;

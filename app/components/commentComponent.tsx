@@ -71,7 +71,9 @@ export default function CommentComponent() {
           <Image
             alt="Midone Tailwind HTML Admin Template"
             className="rounded-md object-fill"
-            src={staticImage}
+            src={movie.image!}
+            width={2000}
+            height={2000}
           />
         </div>
       </div>
