@@ -1,5 +1,10 @@
 # Coding Challenge: Movie Rating App
 
+# Running the application:
+
+Just run "docker-compose up"
+the app will start on localhost:3000
+
 ## Frontend
 
 Use React/Next.js and TypeScript

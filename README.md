@@ -1,5 +1,10 @@
 # Coding Challenge: Film-Bewertungs-App
 
+# Ausführen der Anwendung:
+
+Einfach "docker-compose up" ausführen
+die Anwendung wird auf localhost:3000 gestartet
+
 ## Frontend
 
 Verwende React/Next.js und TypeScript
