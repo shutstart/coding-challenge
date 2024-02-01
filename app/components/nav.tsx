@@ -5,14 +5,17 @@ import Link from "next/link";
 import { ChangeEvent, useState } from "react";
 import { useSearchStore } from "@/lib/store/state";
 import { Search } from "lucide-react";
+import { usePathname } from "next/navigation";
 export default function Nav() {
+  const pathName = usePathname();
+  console.log(pathName);
   const [searchString, setSearchString] = useState("");
   function handleSearchChange(e: ChangeEvent<HTMLInputElement>) {
     setSearchString(e.target.value);
     useSearchStore.setState({ searchString: e.target.value });
   }
   return (
-    <nav className="flex border-gray-200  mb-10 ">
+    <nav className="flex border-gray-200  mb-10 mx-auto">
       <div className="  flex items-center justify-between w-full ">
         <div className="flex">
           <div className="w-20">
@@ -24,8 +27,33 @@ export default function Nav() {
           </span>
         </div>
 
-        <div className="flex md:order-2">
-          <div className="relative   hidden md:block">
+        <div
+          className="hidden md:flex justify-between items-center w-full md:w-auto md:order-1 relative mx-auto"
+          id="mobile-menu-3"
+        >
+          <ul className="flex-col md:flex-row flex md:space-x-8 mt-4 md:mt-0 md:text-sm md:font-medium">
+            <li>
+              <Link
+                href="/movies"
+                className="bg-blue-700 md:bg-transparent text-white block pl-3 pr-4 py-2 md:text-blue-700 md:p-0 rounded"
+                aria-current="page"
+              >
+                Movies
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/wishlist"
+                className="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-700 md:p-0"
+              >
+                Wishlist
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className="flex md:order-2 w-32 justify-end">
+          <div className="relative   hidden md:block ">
             <div className="hidden search sm:block">
               <input
                 id="search"
@@ -77,30 +105,6 @@ export default function Nav() {
               ></path>
             </svg>
           </button>
-        </div>
-        <div
-          className="hidden md:flex justify-between items-center w-full md:w-auto md:order-1 relative mx-auto"
-          id="mobile-menu-3"
-        >
-          <ul className="flex-col md:flex-row flex md:space-x-8 mt-4 md:mt-0 md:text-sm md:font-medium">
-            <li>
-              <Link
-                href="/movies"
-                className="bg-blue-700 md:bg-transparent text-white block pl-3 pr-4 py-2 md:text-blue-700 md:p-0 rounded"
-                aria-current="page"
-              >
-                Movies
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/wishlist"
-                className="text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-700 md:p-0"
-              >
-                Wishlist
-              </Link>
-            </li>
-          </ul>
         </div>
       </div>
     </nav>

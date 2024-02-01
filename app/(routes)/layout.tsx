@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de" suppressHydrationWarning={true}>
-      <body className="p-4">
+      <body className="p-4 max-w-[1600px] mx-auto">
         <Nav />
 
         {children}

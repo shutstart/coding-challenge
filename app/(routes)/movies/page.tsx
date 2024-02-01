@@ -6,7 +6,9 @@ import {
   useModalStore,
   useMovieListStore,
   useSearchStore,
+  useSelectedModalStore,
 } from "@/lib/store/state";
+import { ModalType } from "@/lib/types";
 import { GetAndSetMovieList } from "@/lib/util/helper";
 import { use, useEffect, useState } from "react";
 
@@ -17,6 +19,7 @@ export default function Home() {
   const [isLoading, setLoading] = useState(true);
 
   function openModal() {
+    useSelectedModalStore.setState({ type: ModalType.ADDMOVIE });
     useModalStore.setState({ open: true });
   }
   useEffect(() => {

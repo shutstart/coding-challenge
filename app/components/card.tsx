@@ -89,7 +89,7 @@ export default function Card({
           src={staticImage}
           alt=""
         />
-        <div className="flex flex-col p-4 leading-normal w-full">
+        <div className="flex flex-col p-4 leading-normal w-full overflow-hidden">
           <div className="text-2xl font-bold tracking-tight text-gray-900 ">
             {movie.title}
           </div>
@@ -97,8 +97,8 @@ export default function Card({
           <p className="text-sm font-medium text-gray-500">
             {movie.releaseYear}
           </p>
-          <div className="mt-3 font-normal text-gray-700">
-            {movie.description}
+          <div className="mt-3 font-normal text-gray-700 flex h-24 overflow-hidden">
+            <p className="text-ellipsis ... text-pretty">{movie.description}</p>
           </div>
           <div className="mt-auto flex w-full ">
             <Rating movieRating={rating} handleRating={handleRating} />

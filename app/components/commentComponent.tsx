@@ -61,7 +61,7 @@ export default function CommentComponent() {
   };
 
   return (
-    <>
+    <div className="relative">
       <h2 className="text-xl font-medium intro-y sm:text-2xl">{movie.title}</h2>
       <div className="mt-3 text-xs  text-slate-600 dark:text-slate-500 sm:text-sm">
         {movie.releaseYear}
@@ -89,28 +89,10 @@ export default function CommentComponent() {
       <div className="leading-relaxed text-justify intro-y indent-[30px]">
         <p className="mb-5">{movie.description}</p>
       </div>
-      <div className="pt-5 mt-5 border-t intro-y border-slate-200/60 dark:border-darkmode-400 w-full">
-        <div className="relative mt-5 news__input h-[71px] w-full">
-          <MessageCircle className="absolute inset-y-0 left-0 w-5 h-5 my-auto ml-6 text-slate-500" />
-          <input
-            value={commentString}
-            className="py-6 pl-16 border-transparent resize-none bg-slate-100 w-full pr-16"
-            placeholder="Post a comment..."
-            onChange={(e) => {
-              setCommentString(e.target.value);
-            }}
-          />
-          <button
-            className="  absolute inset-y-0 right-0    text-slate-500 h-full bg-gray-400/20 w-12 hover:bg-gray-400/30 cursor-pointer"
-            onClick={addComment}
-          >
-            <div className="flex h-full w-full">
-              <IoMdSend className=" mx-auto my-auto w-12 " />
-            </div>
-          </button>
-        </div>
+      <div className="text-base font-medium sm:text-lg border-b p-4 ">
+        Comments
       </div>
-      <div className="pb-8 mt-5 intro-y w-full max-h-96 overflow-y-auto no-scrollbar ">
+      <div className=" intro-y w-full max-h-72 overflow-y-auto no-scrollbar pb-24">
         {comments.map((comment) => {
           return (
             <div
@@ -139,6 +121,27 @@ export default function CommentComponent() {
           );
         })}
       </div>
-    </>
+      <div className="absolute bottom-0 pt-5 mt-5  intro-y border-slate-200/60  w-full">
+        <div className="relative mt-5 news__input h-[71px] w-full">
+          <MessageCircle className="absolute inset-y-0 left-0 w-5 h-5 my-auto ml-6 text-slate-500" />
+          <input
+            value={commentString}
+            className="py-6 pl-16 border-transparent resize-none bg-slate-100 w-full pr-16"
+            placeholder="Post a comment..."
+            onChange={(e) => {
+              setCommentString(e.target.value);
+            }}
+          />
+          <button
+            className="  absolute inset-y-0 right-0    text-slate-500 h-full bg-gray-400/20 w-12 hover:bg-gray-400/30 cursor-pointer"
+            onClick={addComment}
+          >
+            <div className="flex h-full w-full">
+              <IoMdSend className=" mx-auto my-auto w-12 " />
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
