@@ -1,23 +1,26 @@
 "use client";
+import Button from "@/app/components/button";
 import Card from "@/app/components/card";
 import Modal from "@/app/components/modal";
-import { useModalStore } from "@/lib/store/state";
-import { Movie } from "@/lib/types";
-import { useEffect, useState } from "react";
+import {
+  useModalStore,
+  useMovieListStore,
+  useSearchStore,
+} from "@/lib/store/state";
+import { GetAndSetMovieList } from "@/lib/util/helper";
+import { use, useEffect, useState } from "react";
 
 export default function Home() {
-  const [data, setData] = useState(new Array<Movie>());
+  const data = useMovieListStore((state) => state.movieList);
+  const searchString = useSearchStore((state) => state.searchString);
+
   const [isLoading, setLoading] = useState(true);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   function openModal() {
     useModalStore.setState({ open: true });
   }
   useEffect(() => {
-    fetch("/api/list-movies").then(async (res) => {
-      const result = await res.json();
-      console.log(result);
-      setData(result);
+    GetAndSetMovieList().then((data) => {
       setLoading(false);
     });
   }, []);
@@ -49,21 +52,28 @@ export default function Home() {
 
   return (
     <>
+      <div className="p-4">
+        <div className="flex flex-col items-center mt-8 sm:flex-row">
+          <div className="w-1/2 mr-auto">
+            <h2 className="text-lg font-medium  ">Movies</h2>
+          </div>
+
+          <Button
+            className="mr-2 shadow-md"
+            handleClick={openModal}
+            variant={"primary"}
+            value={"Add Movie"}
+          />
+        </div>
+        <div className="grid grid-cols-12 gap-6 mt-5">
+          {data.map((movie) => {
+            if (movie.title.toLowerCase().includes(searchString.toLowerCase()))
+              return <Card movie={movie} key={movie.id} />;
+          })}
+        </div>
+      </div>
+
       <Modal />
-      <div className="flex justify-between">
-        <h1 className="text-3xl font-bold">Movies</h1>
-        <button
-          onClick={() => openModal()}
-          className="flex button bg-[#5cffcd] hover:bg-[#49eebd] p-4 rounded-lg"
-        >
-          Add Movie
-        </button>
-      </div>
-      <div className="grid grid-cols-12 gap-6 mt-5">
-        {data.map((movie) => {
-          return <Card movie={movie} key={movie.id} />;
-        })}
-      </div>
     </>
   );
 }

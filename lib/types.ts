@@ -2,10 +2,8 @@ export type Movie = {
   id?: number;
   title: string;
   description: string;
-  releaseDate: string;
-  releaseYear: number;
-  rating?: number;
-  comments?: Comment[];
+  releaseYear: string;
+  image?: string;
 };
 
 export type Rating = {
@@ -19,3 +17,8 @@ export type Comment = {
   movieId: number;
   value: string;
 };
+
+export enum ModalType {
+  ADDMOVIE,
+  VIEWMOVIE,
+}

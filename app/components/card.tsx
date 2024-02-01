@@ -1,29 +1,42 @@
-import { useSelectedMovieStore } from "@/lib/store/state";
+import {
+  useSelectedModalStore,
+  useSelectedMovieStore,
+} from "@/lib/store/state";
 import { Movie } from "../../lib/types";
-import StarRatings from "react-star-ratings";
+import staticImage from "../../public/preview-1.jpg";
+import { FaStar } from "react-icons/fa";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  AddRating,
+  DeleteComment,
+  DeleteMovie,
+  PostComment,
+} from "@/lib/util/apiCall";
+import { GetAndSetMovieList, GetNumericMovieRating } from "@/lib/util/helper";
+import Image from "next/image";
+import { MessageSquareText, Trash2 } from "lucide-react";
+import { OpenModal } from "@/lib/util/setters";
+import Rating from "./ratingComponent";
 
 export default function Card({ movie }: { movie: Movie }) {
-  const isSelected = useSelectedMovieStore((state) => state.id === movie.id);
   const [rating, setRating] = useState(0);
-  const deleteComment = async (id: number) => {
-    const res = await fetch(`/api/delete-comment?id=${id}`, {
-      method: "DELETE",
+  useEffect(() => {
+    GetNumericMovieRating(movie.id!).then((rating) => {
+      setRating(rating ?? 0);
     });
-    const data = await res.json();
-    if (!data) return alert("Something went wrong");
-  };
+  });
+
   const handleRating = async (rate: number) => {
-    setRating(rate);
-    console.log(rate);
     // other logic
-    const res = await fetch(`/api/add-rating`, {
-      method: "POST",
-      body: JSON.stringify({ rating: rate * 10, movieId: movie.id }),
-    });
-    const data = await res.json();
+    const data = await AddRating(rate, movie.id!);
     console.log(data);
+    if (!data) {
+      // TODO: Handle error
+    }
+    GetNumericMovieRating(movie.id!).then((rating) => {
+      setRating(rating ?? 0);
+    });
   };
   function selectMovie() {
     useSelectedMovieStore.setState({ id: movie.id });
@@ -31,30 +44,27 @@ export default function Card({ movie }: { movie: Movie }) {
 
   async function addComment(formData: FormData) {
     const comment = formData.get("comment");
-    const res = await fetch(`/api/post-comment`, {
-      method: "POST",
-      body: JSON.stringify({ comment, movieId: movie.id }),
-    });
-    const data = await res.json();
+    const data = await PostComment(String(comment), movie.id!);
     if (!data) return alert("Something went wrong");
   }
-  async function deleteMovie(id: number) {
-    const res = await fetch(`/api/delete-movie?id=${id}`, {
-      method: "DELETE",
-    });
-    const data = await res.json();
+
+  async function handleDeleteMovie() {
+    const data = await DeleteMovie(movie.id!);
     if (!data) return alert("Something went wrong");
+    GetAndSetMovieList();
   }
   return (
     <>
-      <div
-        className={`rounded overflow-hidden shadow-lg w-full ${
-          isSelected ? "col-span-12" : "col-span-3"
-        }`}
+      {/* <div
+        className={`rounded overflow-hidden shadow-lg w-full col-span-4`}
         onClick={selectMovie}
-      >
-        {/* <img className="w-full" src="/img/card-top.jpg" alt="Sunset in the mountains"> */}
-        <div className="px-6 py-4">
+      > */}
+      {/* <img
+          className="w-full"
+          src={movie.image}
+          alt="Sunset in the mountains"
+        /> */}
+      {/* <div className="px-6 py-4">
           <div className="font-bold text-xl mb-2">{movie.title}</div>
           <p className="text-gray-700 text-base">{movie.description}</p>
         </div>
@@ -69,7 +79,10 @@ export default function Card({ movie }: { movie: Movie }) {
             Rating: {movie.rating ?? 0} / 5
           </span>
           <button
-            onClick={() => deleteMovie(movie.id!)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDeleteMovie();
+            }}
             className="inline-block bg-red-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
           >
             Delete Movie
@@ -97,7 +110,7 @@ export default function Card({ movie }: { movie: Movie }) {
               <div className="flex" key={comment.id}>
                 <li> {String(comment.value)} </li>
                 <button
-                  onClick={() => deleteComment(comment.id!)}
+                  onClick={() => handleDeleteComment(comment.id!)}
                   className="inline-block bg-red-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
                 >
                   DELETE COMMENT
@@ -105,6 +118,99 @@ export default function Card({ movie }: { movie: Movie }) {
               </div>
             );
           })}
+        </div>
+      </div> */}
+
+      <div className="col-span-12 md:col-span-6  flex flex-col  bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-50/50 ">
+        <Image
+          priority
+          className="object-cover w-full rounded-t-lg h-64 md:w-48 md:rounded-none md:rounded-s-lg"
+          src={staticImage}
+          alt=""
+        />
+        <div className="flex flex-col p-4 leading-normal w-full">
+          <div className="text-2xl font-bold tracking-tight text-gray-900 ">
+            {movie.title}
+          </div>
+
+          <p className="text-sm font-medium text-gray-500">
+            {movie.releaseYear}
+          </p>
+          <div className="mt-3 font-normal text-gray-700">
+            {movie.description}
+          </div>
+          <div className="mt-auto flex w-full ">
+            {/* <div className=" bg-gray-300/20">
+              <div
+                className="flex py-1 px-1 cursor-default"
+                onMouseEnter={() => {
+                  setTotalStars(5);
+                  setRating(movie.rating ?? 0);
+                }}
+                onMouseLeave={() => {
+                  setTotalStars(1);
+                  setRating(1);
+                }}
+              >
+                {[...Array(totalStars)].map((star, index) => {
+                  const currentRating = index + 1;
+
+                  return (
+                    <div className="my-auto " key={index}>
+                      <label key={index}>
+                        <input
+                          key={star}
+                          type="radio"
+                          name="rating"
+                          className="hidden "
+                          value={currentRating}
+                          onChange={() => {
+                            setRating(currentRating);
+                            handleRating(currentRating);
+                          }}
+                        />
+                        <span
+                          className="star cursor-pointer"
+                          style={{
+                            color:
+                              currentRating <= (hover || rating)
+                                ? "#ffc107"
+                                : "#e4e5e9",
+                          }}
+                          onMouseEnter={() => setHover(currentRating)}
+                          onMouseLeave={() => setHover(0)}
+                        >
+                          <FaStar className="flex my-auto mr-2" />
+                        </span>
+                      </label>
+                    </div>
+                  );
+                })}
+
+                <div className="ml-auto">{movie.rating ?? 0}</div>
+              </div>
+            </div> */}
+            <Rating movieRating={rating} handleRating={handleRating} />
+
+            <div className="ml-auto flex">
+              <MessageSquareText
+                className="mr-6 hover:text-blue-600 cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  selectMovie();
+                  useSelectedModalStore.getState().setViewMovie();
+                  OpenModal();
+                }}
+              />
+              <Trash2
+                className="hover:text-red-600 cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteMovie();
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </>

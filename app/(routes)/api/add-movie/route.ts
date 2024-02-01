@@ -9,8 +9,8 @@ export async function POST(request: Request) {
     const result = await conn!.query(insertMovieQuery, [
       body.title,
       body.description,
+      body.image,
       body.releaseYear,
-      body.releaseDate,
     ]);
     console.log("add movie query result", result);
 
