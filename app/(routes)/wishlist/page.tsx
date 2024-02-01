@@ -1,12 +1,12 @@
 "use client";
 import Card from "@/app/components/card";
-import { useSearchStore } from "@/lib/store/state";
+import { useSearchStore, useWishlistStore } from "@/lib/store/state";
 import { Movie } from "@/lib/types";
 import { GetWishlist } from "@/lib/util/apiCall";
 import { useEffect, useState } from "react";
 
 export default function Wishlist() {
-  const [data, setData] = useState<Movie[]>([]);
+  const data = useWishlistStore((state) => state.wishlist);
   const searchString = useSearchStore((state) => state.searchString);
 
   const [isLoading, setLoading] = useState(true);
@@ -14,7 +14,7 @@ export default function Wishlist() {
   useEffect(() => {
     GetWishlist().then((data: Movie[]) => {
       console.log("wishlist", data);
-      setData(data);
+      useWishlistStore.setState({ wishlist: data });
       setLoading(false);
     });
   }, []);

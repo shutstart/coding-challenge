@@ -1,9 +1,17 @@
+import { useWishlistStore } from "../store/state";
 import { Movie } from "../types";
-import { GetMovieList, GetMovieRatings } from "./apiCall";
-import { SetMovieList } from "./setters";
+import { GetMovieList, GetMovieRatings, GetWishlist } from "./apiCall";
+import { SetMovieList, SetWishlist } from "./setters";
 
+// gets the movie list from the database and sets it in the store
 export const GetAndSetMovieList = async () => {
   const res = await GetMovieList().then((result) => SetMovieList(result));
+  return res;
+};
+
+// gets the wishlist form the database and sets it in the store
+export const GetAndSetWishList = async () => {
+  const res = await GetWishlist().then((result) => SetWishlist(result));
   return res;
 };
 
@@ -22,7 +30,8 @@ export const GetNumericMovieRating = async (movieId: number) => {
 };
 
 // helper for checking if a movie is in the wishlist
-export const IsInWishlist = (wishlist: Movie[], movieId: number) => {
+export const IsInWishlist = (movieId: number) => {
+  const wishlist = useWishlistStore.getState().wishlist;
   const movieIds = wishlist.map((movie) => {
     console.log(movie);
     return movie.id;

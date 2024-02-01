@@ -1,6 +1,7 @@
 import {
   useSelectedModalStore,
   useSelectedMovieStore,
+  useWishlistStore,
 } from "@/lib/store/state";
 import { Movie } from "../../lib/types";
 import staticImage from "../../public/preview-1.jpg";
@@ -14,6 +15,7 @@ import {
 } from "@/lib/util/apiCall";
 import {
   GetAndSetMovieList,
+  GetAndSetWishList,
   GetNumericMovieRating,
   IsInWishlist,
 } from "@/lib/util/helper";
@@ -35,9 +37,8 @@ export default function Card({
   useEffect(() => {
     GetNumericMovieRating(movie.id!).then((rating) => {
       setRating(rating ?? 0);
-      GetWishlist().then((data: Movie[]) => {
-        console.log("wishlist", data);
-        setIsWishListed(IsInWishlist(data, movie.id!));
+      GetAndSetWishList().then(() => {
+        setIsWishListed(IsInWishlist(movie.id!));
       });
     });
   }, []);
@@ -54,8 +55,8 @@ export default function Card({
         // TODO: Handle error
       }
     }
-    GetWishlist().then((d) => {
-      setIsWishListed(IsInWishlist(d, movie.id!));
+    GetAndSetWishList().then(() => {
+      setIsWishListed(IsInWishlist(movie.id!));
     });
   };
 
