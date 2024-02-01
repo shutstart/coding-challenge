@@ -1,15 +1,15 @@
 version: "3"
 services:
-  # web:
-  #   build: .
-  #   environment:
-  #     - PGSQL_HOST=postgres
-  #     - PGSQL_PORT=5432
-  #     - PGSQL_DATABASE=movies
-  #     - PGSQL_USER=neosfer
-  #     - PGSQL_PASSWORD=neosfer
-  #   ports:
-  #     - "3000:3000"
+  web:
+    build: .
+    environment:
+      - PGSQL_HOST=postgres
+      - PGSQL_PORT=5432
+      - PGSQL_DATABASE=movies
+      - PGSQL_USER=neosfer
+      - PGSQL_PASSWORD=neosfer
+    ports:
+      - "3000:3000"
   postgres:
     image: postgres:15-alpine
     container_name: grocer_postgres
